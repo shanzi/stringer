@@ -19,10 +19,11 @@ require_relative "./app/tasks/remove_old_stories.rb"
 
 desc "Start runing scheduler"
 task :run_scheduler do
+  puts "Running scheduler..."
   scheduler = Rufus::Scheduler.new
   scheduler.interval '20m' do
-    puts "Fetching feeds..."
-    Rake::Task[":lazy_fetch"].invoke
+    puts "** Fetching feeds..."
+    Rake::Task["fetch_feeds"].invoke
   end
   scheduler.join
 end
