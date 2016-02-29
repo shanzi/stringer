@@ -25,7 +25,7 @@ task :run_scheduler do
 
   logger.info 'Starting scheduler'
   scheduler = Rufus::Scheduler.new
-  scheduler.every '20m' do
+  scheduler.every '20m', :first => :now do
     logger.info "** Fetching feeds..."
     Rake::Task["lazy_fetch"].invoke
   end
