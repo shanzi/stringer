@@ -1,6 +1,7 @@
 require "bundler"
 Bundler.setup
 
+require 'logger'
 require "rubygems"
 require "net/http"
 require "active_record"
@@ -19,11 +20,14 @@ require_relative "./app/tasks/remove_old_stories.rb"
 
 desc "Start runing scheduler"
 task :run_scheduler do
-  puts "Running scheduler..."
+  logger = Logger.new(STDOUT)
+  logger.level = Logger::DEBUG
+
+  logger.info 'Starting scheduler'
   scheduler = Rufus::Scheduler.new
-  scheduler.interval '20m' do
-    puts "** Fetching feeds..."
-    Rake::Task["fetch_feeds"].invoke
+  scheduler.every '20m' do
+    logger.info "** Fetching feeds..."
+    Rake::Task["lazy_fetch"].invoke
   end
   scheduler.join
 end
