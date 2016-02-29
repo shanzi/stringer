@@ -1,6 +1,6 @@
 ruby_version_file = File.join(File.expand_path("..", __FILE__), ".ruby-version")
 ruby File.read(ruby_version_file).chomp if File.readable?(ruby_version_file)
-source "https://rubygems.org"
+source "https://ruby.taobao.org"
 
 group :production do
   gem "pg", "~> 0.17.1"
@@ -45,4 +45,4 @@ gem "sinatra-flash", "~> 0.3.0"
 gem "thread", "~> 0.1.3"
 gem "will_paginate", "~> 3.0", ">= 3.0.5"
 gem "rack-protection", "~> 1.5.3"
-gem "whenever", "~> 0.9.4"
+gem "rufus-scheduler", "~> 3.2.0"

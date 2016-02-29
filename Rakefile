@@ -9,11 +9,23 @@ require "delayed_job_active_record"
 
 require "sinatra/activerecord/rake"
 
+require "rufus-scheduler"
+
 require "./app"
 require_relative "./app/jobs/fetch_feed_job"
 require_relative "./app/tasks/fetch_feeds"
 require_relative "./app/tasks/change_password"
 require_relative "./app/tasks/remove_old_stories.rb"
+
+desc "Start runing scheduler"
+task :run_scheduler do
+  scheduler = Rufus::Scheduler.new
+  scheduler.interval '20m' do
+    puts "Fetching feeds..."
+    Rake::Task[":lazy_fetch"].invoke
+  end
+  scheduler.join
+end
 
 desc "Fetch all feeds."
 task :fetch_feeds do
